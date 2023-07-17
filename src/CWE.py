@@ -1,4 +1,4 @@
-def read_forces(fileName):
+def read_forces(file_name):
     """   
     Reads force data agregated over a surface from openfaom file and returns 
     origin(center of rotation), time, and the forces and moments vector for 
@@ -10,7 +10,13 @@ def read_forces(fileName):
     moments = []
     time = []
     
-    with open(fileName, "r") as f:
+    #If pressure, viscous and porous are there
+    #jump = 9
+    
+    #If only pressure and viscous
+    jump = 6
+    
+    with open(file_name, "r") as f:
         for line in f:
             if line.startswith('#'): 
                 #Read the origin where the force are itegrated
@@ -31,7 +37,7 @@ def read_forces(fileName):
                 line = line.split()
                 time.append(float(line[0]))
                 forces.append([float(line[1]), float(line[2]), float(line[3])])
-                moments.append([float(line[1 + 9]), float(line[2 + 9]), float(line[3 + 9])])
+                moments.append([float(line[jump + 1]), float(line[jump + 2]), float(line[jump + 3])])
     
     time = np.asarray(time, dtype=np.float32)
     forces = np.asarray(forces, dtype=np.float32)
