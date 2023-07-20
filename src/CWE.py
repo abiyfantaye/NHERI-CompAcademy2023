@@ -54,7 +54,27 @@ plt.savefig('plots/base_moments_PSD_V.svg')
 plt.savefig('plots/base_moments_PSD_V.png')
 
 
+def setup_plot(plt, font_size=20, legend_font_size=20, axis_font_size=20):
+    fig = plt.figure(facecolor='white')
+    font = {'family' : 'Times New Roman','weight' : 'normal', 'size'   : font_size}
+    plt.rcParams['xtick.major.pad'] = 10
+    plt.rcParams['ytick.major.pad'] = 10    
+    plt.rcParams['xtick.direction'] = 'inout'
+    plt.rcParams['ytick.direction'] = 'inout'
+    plt.rcParams['xtick.major.size'] = 8
+    plt.rcParams['ytick.major.size'] = 8
 
+    plt.rc('font', **font)    
+    plt.rc('axes', labelsize=font_size)    # fontsize of the x and y labels
+    plt.rc('axes', titlesize=font_size)  # fontsize of the axes title
+    plt.rc('xtick', labelsize=axis_font_size)    # fontsize of the tick labels
+    plt.rc('ytick', labelsize=axis_font_size)    # fontsize of the tick labels
+    plt.rc('axes', linewidth=1.25)    
+    plt.rc('legend', fontsize=legend_font_size)
+    plt.rc('text', usetex=True)
+    
+
+    return plt, fig
 
 
 def psd(x, dt, nseg):
