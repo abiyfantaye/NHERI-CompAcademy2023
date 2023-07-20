@@ -1,5 +1,61 @@
 from scipy import signal
 import numpy as np
+import matplotlib.gridspec as gridspec    
+
+##############################################################################
+#  Sample plots for base load PSD functions 
+##############################################################################
+n_cmpt = 3
+plt, fig = cwe.setup_plot(plt, 28, 24, 22)
+gs = gridspec.GridSpec(ncols=1, nrows=n_cmpt, figure=fig)
+
+B = 30.0
+H = 450.0
+
+markersize = 8.8
+linewidth = 3.0
+markeredgewidth = 1.25
+titles  = ['(a)', '(b)', '(c)']
+error_range = 0.2;
+error_x = np.linspace(-10, 10, 3)
+nseg = 8
+ylabel = ['$fS_{M_x}(f)/\sigma_{M_x}^2$','$fS_{M_y}(f)/\sigma_{M_y}^2$','$fS_{M_z}(f)/\sigma_{M_z}^2$']
+y_lim = [[1e-4, 10.0], [1e-4, 10.0], [1e-4, 10.0]]
+
+for i in range(n_cmpt):
+    ax = fig.add_subplot(gs[i])
+    ax.tick_params(which='major', direction='in', size=10, width=1.5)
+    ax.tick_params(which='minor', direction='in', size=6.5,  width=1.0)
+    ax.grid(True, which='major', linestyle='-', alpha=0.5)
+    ax.grid(True, which='minor', linestyle='--', alpha=0.25)
+    
+    ax.set_xlim([1e-3, 1.0])
+    ax.set_ylim(y_lim[i])
+    ax.set_axisbelow(True)
+
+    ax.set_ylabel(ylabel[i])
+        
+    ax.set_xlabel('$fB/\overline{U}_H$')
+
+    cfd_f, cfd_s = psd(moments[:,i], dt, nseg
+    cfd_var = np.var(moments[:,i])
+
+    ax.loglog(cfd_f*B/cfd_Uh, cfd_f*cfd_s/cfd_var, 'r--', linewidth=2)    
+
+    # ax.plot(cfd_f, cfd_f*cfd_s/cfd_var, 'r--', linewidth=2)   
+
+    # ax.legend(['Case-1','Case-2'], loc=0, framealpha=1.0,ncol=2,edgecolor='k')      
+
+fig.set_size_inches(n_directions*22.5/2.54, n_cmpt*15/2.54)
+plt.tight_layout()
+plt.show()
+plt.savefig('plots/base_moments_PSD_V.pdf')
+plt.savefig('plots/base_moments_PSD_V.svg')
+plt.savefig('plots/base_moments_PSD_V.png')
+
+
+
+
 
 def psd(x, dt, nseg):
     """
