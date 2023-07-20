@@ -1,3 +1,32 @@
+from scipy import signal
+import numpy as np
+
+def psd(x, dt, nseg):
+    """
+    Calculates the power spectral density of a given signal using the welch
+    method. 
+
+    Parameters
+    ----------
+    x 
+        The time history of the signal.         
+    dt
+        The time step . 
+    nseg
+        The the number of segments to average the time series. 
+
+    Returns
+    -------
+    freq, spectra
+        Returns the frequencye and sepctra of the signal
+    
+    """
+    x_no_mean = x - np.mean(x)
+    freq, spectra = signal.welch(x_no_mean, fs=1.0/dt, nperseg=len(x_no_mean)/nseg)
+       
+    return freq[1:], spectra[1:]
+
+
 def read_forces(file_name):
     """   
     Reads force data agregated over a surface from openfaom file and returns 
